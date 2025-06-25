@@ -34,7 +34,7 @@ namespace Api.Controllers
         }
 
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto model) 
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
@@ -48,7 +48,7 @@ namespace Api.Controllers
             return CreateApplicationUserDto(user);
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto model) 
         {
             if (await CheckEmailExistsAsync(model.Email))
@@ -68,7 +68,7 @@ namespace Api.Controllers
             var result = await _userManager.CreateAsync(userToAdd,model.Password);
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            return Ok("Yours account has been created,you can login");
+            return Ok(new JsonResult(new {title = "Account Created",message = "Your account has been created,you can login"}));
         }
 
         #region private helper method
